@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Download Your File</h1>
+    <p>Click the button below to download the file.</p>
+    <button onclick="downloadFile()">Download File</button>
+
+    <script>
+        function downloadFile() {
+            // Direct link to the file in the repository
+            const filePath = 'downloads/example.exe';
+
+            // Redirect the user to the file URL
+            window.location.href = filePath;
+        }
+    </script>
+</body>
+</html>
