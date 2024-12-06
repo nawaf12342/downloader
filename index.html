@@ -9,9 +9,12 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
         }
         h1 {
-            color: #333;
+            color: #007bff;
         }
         button {
             padding: 10px 20px;
@@ -21,16 +24,37 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #218838;
         }
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .copyright-logo {
+            font-size: 16px;
+            color: #333;
+            display: inline-flex;
+            align-items: center;
+        }
+        .copyright-logo span {
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
-    <h1>Download Your File</h1>
-    <p>Click the button below to download the file.</p>
+    <h1>Download Your Loader</h1>
+    <p>Click the button below to download the Loader.</p>
     <button onclick="downloadFile()">Download File</button>
+
+    <footer>
+        <div class="copyright-logo">
+            &copy; <span>2024 MEX STUDIOS</span>
+        </div>
+    </footer>
 
     <script>
         function downloadFile() {
