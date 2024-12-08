@@ -5,65 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download File Server</title>
     <style>
-        body {
+        /* Global Styles */
+        * {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
             overflow: hidden;
         }
         h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px #00f0ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px #00f0ff;
+            animation: fadeIn 1.5s ease-out;
         }
         p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.85;
+            animation: fadeIn 2s ease-out;
         }
+        /* Button Styles */ /* that was sucks */
         button {
             padding: 15px 30px;
             font-size: 18px;
             font-weight: bold;
-            color: #fff;
             background: linear-gradient(90deg, #00f0ff, #0078ff);
             border: none;
             border-radius: 50px;
+            color: #fff;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.7), 0 0 30px rgba(0, 120, 255, 0.5);
-            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: buttonAppear 2s ease-out;
         }
         button:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 240, 255, 1), 0 0 50px rgba(0, 120, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
         }
+        button:active {
+            transform: scale(1.05);
+        }
+        /* Footer Styling */
         footer {
             position: absolute;
             bottom: 20px;
             font-size: 14px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            opacity: 0.8;
+            animation: fadeIn 2.5s ease-out;
         }
         footer .copyright-logo {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
+            letter-spacing: 1px;
         }
         footer .copyright-logo span {
             font-weight: bold;
             color: #00f0ff;
         }
+        /* Animation for Fade-in effects */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes buttonAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Download Your Loader</h1>
-    <p>Click the button below to download the Loader.</p>
-    <button onclick="downloadFile()">Download File</button>
+    <div>
+        <h1>Download Your Loader</h1>
+        <p>Click the button below to start your download.</p>
+        <button onclick="downloadFile()">Download File</button>
+    </div>
 
     <footer>
         <div class="copyright-logo">
