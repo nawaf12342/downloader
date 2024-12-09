@@ -10,8 +10,8 @@
 <body>
     <div>
         <h1>Download Your Loader</h1>
-        <p>Click the button below to start your download.</p>
-        <button onclick="downloadFile()">Download File</button>
+        <p id="statusText">Checking server status...</p>
+        <button id="downloadButton" onclick="downloadFile()" disabled>Download File</button>
     </div>
 
     <footer>
@@ -21,13 +21,37 @@
     </footer>
 
     <script>
-        function downloadFile() {
-            // Direct link to the file in the repository
-            const filePath = 'downloads/DownloaderLoader.exe';
+        async function checkStatus() {
+            try {
+                const response = await fetch('status.json'); // Fetch the status.json file
+                if (!response.ok) {
+                    throw new Error('Failed to fetch status.json');
+                }
 
-            // Redirect the user to the file URL
-            window.location.href = filePath;
+                const data = await response.json(); // Parse the JSON file
+                const statusText = document.getElementById('statusText');
+                const downloadButton = document.getElementById('downloadButton');
+
+                if (data.status === "Online") {
+                    statusText.textContent = "Server Status: Online";
+                    downloadButton.disabled = false; // Enable the button
+                } else {
+                    statusText.textContent = "Server Status: Offline";
+                    downloadButton.disabled = true; // Keep the button disabled
+                }
+            } catch (error) {
+                console.error('Error fetching server status:', error);
+                document.getElementById('statusText').textContent = "Server Status: Error fetching status.";
+            }
         }
+
+        function downloadFile() {
+            const filePath = 'downloads/DownloaderLoader.exe';
+            window.location.href = filePath; // Redirect to the file URL
+        }
+
+        // Call the checkStatus function when the page loads
+        window.onload = checkStatus;
     </script>
 </body>
 </html>
