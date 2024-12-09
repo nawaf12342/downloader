@@ -23,7 +23,9 @@
     <script>
         async function checkStatus() {
             try {
-                const response = await fetch('status.json'); // Fetch the status.json file
+                // Add a cache-busting query string to ensure the browser fetches the latest file
+                const response = await fetch('status.json?nocache=' + new Date().getTime());
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch status.json');
                 }
@@ -32,7 +34,7 @@
                 const statusText = document.getElementById('statusText');
                 const downloadButton = document.getElementById('downloadButton');
 
-                if (data.status === "Online") {
+                if (data.status && data.status.trim().toLowerCase() === "online") {
                     statusText.textContent = "Server Status: Online";
                     downloadButton.disabled = false; // Enable the button
                 } else {
@@ -42,6 +44,7 @@
             } catch (error) {
                 console.error('Error fetching server status:', error);
                 document.getElementById('statusText').textContent = "Server Status: Error fetching status.";
+                document.getElementById('downloadButton').disabled = true; // Disable the button if there's an error
             }
         }
 
