@@ -5,44 +5,60 @@
     box-sizing: border-box;
 }
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: #fff;
-    height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Background Styling */
+.background {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-align: center;
 }
 
-/* Card Design */
+/* Card Styling */
 .card {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 30px 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1s ease-out;
-    width: 90%;
-    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: center;
 }
 
-.card h1 {
+/* Heading Styling */
+h1 {
     font-size: 2.5rem;
-    margin-bottom: 15px;
-    letter-spacing: 1.5px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px #00f0ff;
+    margin-bottom: 20px;
+    color: #00f0ff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px #00f0ff;
 }
 
-/* Status Text */
-.card p {
-    font-size: 1.2rem;
+/* Paragraph Styling */
+p {
+    font-size: 1.25rem;
     margin-bottom: 20px;
-    color: rgba(255, 255, 255, 0.85);
+    opacity: 0.85;
 }
 
 /* Button Styling */
-button {
+button, .back-button {
+    margin-top: 20px;
     padding: 15px 30px;
     font-size: 1rem;
     font-weight: bold;
@@ -53,64 +69,56 @@ button {
     cursor: pointer;
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
-button:disabled {
-    background: #555;
-    cursor: not-allowed;
-}
-button:hover:not(:disabled) {
+
+button:hover, .back-button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
 }
 
-/* Credits Link */
-.credits-link {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 1rem;
-    color: #00f0ff;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-.credits-link:hover {
-    color: #fff;
+button:active, .back-button:active {
+    transform: scale(1.05);
 }
 
-/* Footer */
+/* Footer Styling */
 footer {
     position: absolute;
     bottom: 20px;
-    width: 100%;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-}
-footer .footer-content p {
-    margin: 0;
+    font-size: 14px;
+    opacity: 0.8;
 }
 
-/* Animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.footer-content {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+}
+
+/* Credits List Styling */
+.credits-list {
+    list-style: none;
+    margin: 20px 0;
+    padding: 0;
+    text-align: left;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.credits-list li {
+    margin: 5px 0;
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    .card h1 {
+    h1 {
         font-size: 2rem;
     }
-    .card p {
+    p {
         font-size: 1rem;
     }
-    button {
-        padding: 12px 25px;
+    button, .back-button {
+        padding: 12px 20px;
         font-size: 0.9rem;
     }
 }
