@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download File Server</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="background">
         <div class="card">
-            <h1>Download Your Loader Now!</h1>
+            <h1>Download Your Loader</h1>
             <div id="loader" class="loader"></div>
             <p id="statusText">Checking server status...</p>
             <button id="downloadButton" onclick="downloadFile()" disabled>Download File</button>
+            <a href="credits.html" class="credits-link">View Credits</a>
         </div>
     </div>
 
@@ -25,26 +26,26 @@
 
     <script>
         async function checkStatus() {
-            const loader = document.getElementById("loader");
             try {
                 const response = await fetch('status.json?nocache=' + new Date().getTime());
-                if (!response.ok) throw new Error('Failed to fetch status.json');
-
+                if (!response.ok) {
+                    throw new Error('Failed to fetch status.json');
+                }
                 const data = await response.json();
                 const statusText = document.getElementById('statusText');
                 const downloadButton = document.getElementById('downloadButton');
 
-                if (data.status.trim().toLowerCase() === "online") {
+                if (data.status && data.status.trim().toLowerCase() === "online") {
                     statusText.textContent = "Server Status: Online";
                     downloadButton.disabled = false;
-                    loader.style.display = "none";
                 } else {
                     statusText.textContent = "Server Status: Offline";
+                    downloadButton.disabled = true;
                 }
             } catch (error) {
-                document.getElementById('statusText').textContent = "Error fetching server status.";
-            } finally {
-                loader.style.display = "none";
+                console.error('Error fetching server status:', error);
+                document.getElementById('statusText').textContent = "Server Status: Error fetching status.";
+                document.getElementById('downloadButton').disabled = true;
             }
         }
 
