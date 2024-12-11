@@ -68,6 +68,25 @@ button:active {
     transform: scale(1.05);
 }
 
+/* Credits Button Styling */
+.credits-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #1e3c72;
+    color: #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.7);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.credits-button:hover {
+    background-color: #0078ff;
+    transform: scale(1.05);
+}
+
 /* Footer Styling */
 footer {
     position: absolute;
@@ -76,79 +95,16 @@ footer {
     opacity: 0.8;
     animation: slideIn 6s ease-out;
 }
-footer .footer-content,
-footer .copyright-logo {
+footer .footer-content {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
     letter-spacing: 1px;
 }
-footer .copyright-logo span {
+footer .footer-content p {
     font-weight: bold;
     color: #00f0ff;
-}
-
-/* Card Container for Credits Page */
-.card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
-    animation: slideIn 2s ease-out;
-}
-
-.credits-list {
-    list-style: none;
-    margin-top: 20px;
-    line-height: 1.8;
-    font-size: 1.2rem;
-}
-
-/* Back Button Styling */
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-    text-decoration: none;
-    background: linear-gradient(90deg, #0078ff, #00f0ff);
-    border-radius: 50px;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.back-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
-}
-
-.back-button:active {
-    transform: scale(0.98);
-}
-
-.back-button .button-icon {
-    font-size: 1.5rem;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
-}
-
-.back-button:hover .button-icon {
-    transform: translateX(-5px);
-}
-
-/* Additional Button Container for Layout */
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
 }
 
 /* Responsive Design */
@@ -159,9 +115,12 @@ footer .copyright-logo span {
     p {
         font-size: 1rem;
     }
-    button,
-    .back-button {
+    button {
         padding: 12px 25px;
         font-size: 16px;
+    }
+    .credits-button {
+        font-size: 16px;
+        padding: 10px 20px;
     }
 }
