@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download File Server</title>
+    <!-- Link to external stylesheet -->
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background">
-        <div class="card">
-            <h1>Download Your Loader</h1>
-            <p id="statusText">Checking server status...</p>
-            <button id="downloadButton" onclick="downloadFile()" disabled>Download File</button>
-        </div>
+    <div class="main-content">
+        <h1>Download Your Loader</h1>
+        <p id="statusText">Checking server status...</p>
+        <button id="downloadButton" onclick="downloadFile()" disabled>Download File</button>
+        <!-- Credits Button -->
+        <a href="credits.html" class="credits-button">Credits</a>
     </div>
 
     <footer>
@@ -25,34 +25,37 @@
     <script>
         async function checkStatus() {
             try {
+                // Add a cache-busting query string to ensure the browser fetches the latest file
                 const response = await fetch('status.json?nocache=' + new Date().getTime());
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch status.json');
                 }
 
-                const data = await response.json();
+                const data = await response.json(); // Parse the JSON file
                 const statusText = document.getElementById('statusText');
                 const downloadButton = document.getElementById('downloadButton');
 
                 if (data.status && data.status.trim().toLowerCase() === "online") {
                     statusText.textContent = "Server Status: Online";
-                    downloadButton.disabled = false;
+                    downloadButton.disabled = false; // Enable the button
                 } else {
                     statusText.textContent = "Server Status: Offline";
-                    downloadButton.disabled = true;
+                    downloadButton.disabled = true; // Keep the button disabled
                 }
             } catch (error) {
                 console.error('Error fetching server status:', error);
                 document.getElementById('statusText').textContent = "Server Status: Error fetching status.";
-                document.getElementById('downloadButton').disabled = true;
+                document.getElementById('downloadButton').disabled = true; // Disable the button if there's an error
             }
         }
 
         function downloadFile() {
             const filePath = 'downloads/DownloaderLoader.exe';
-            window.location.href = filePath;
+            window.location.href = filePath; // Redirect to the file URL
         }
 
+        // Call the checkStatus function when the page loads
         window.onload = checkStatus;
     </script>
 </body>
