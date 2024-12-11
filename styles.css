@@ -14,90 +14,79 @@ body {
     height: 100vh;
     text-align: center;
     overflow: hidden;
+    animation: gradientAnimation 10s infinite alternate;
 }
 
-/* Animation for smooth slide-in */
-@keyframes slideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes gradientAnimation {
+    0% { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+    100% { background: linear-gradient(135deg, #162447, #1f4068); }
 }
 
-/* Heading Styles */
+/* Container */
+.container {
+    animation: slideIn 2s ease-out;
+}
+
+/* Loader Styles */
+.loader {
+    margin: 10px auto;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #00f0ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Heading */
 h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin-bottom: 20px;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px #00f0ff;
-    animation: slideIn 3s ease-out;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }
 
-/* Paragraph Styles */
+/* Paragraph */
 p {
-    font-size: 1.25rem;
-    margin-bottom: 40px;
-    opacity: 0.85;
-    animation: slideIn 4s ease-out;
+    font-size: 1.2rem;
+    margin: 20px 0;
 }
 
-/* Button Styles */
+/* Button */
 button {
     padding: 15px 30px;
     font-size: 18px;
     font-weight: bold;
     background: linear-gradient(90deg, #00f0ff, #0078ff);
     border: none;
-    border-radius: 50px;
+    border-radius: 30px;
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: slideIn 5s ease-out;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7);
+    transition: all 0.3s ease;
 }
 button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 1);
 }
-button:active {
-    transform: scale(1.05);
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
 }
 
-/* Footer Styling */
+/* Footer */
 footer {
     position: absolute;
     bottom: 20px;
     font-size: 14px;
     opacity: 0.8;
-    animation: slideIn 6s ease-out;
 }
-footer .copyright-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    letter-spacing: 1px;
-}
-footer .copyright-logo span {
+footer span {
     font-weight: bold;
     color: #00f0ff;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-    p {
-        font-size: 1rem;
-    }
-    button {
-        padding: 12px 25px;
-        font-size: 16px;
-    }
 }
