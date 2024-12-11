@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: #fff;
     display: flex;
@@ -16,69 +16,55 @@ body {
     overflow: hidden;
 }
 
-/* Background Styling */
-.background {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
+/* Animation for smooth slide-in */
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Card Styling */
-.card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    text-align: center;
-}
-
-/* Heading Styling */
+/* Heading Styles */
 h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     margin-bottom: 20px;
-    color: #00f0ff;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px #00f0ff;
+    animation: slideIn 3s ease-out;
 }
 
-/* Paragraph Styling */
+/* Paragraph Styles */
 p {
     font-size: 1.25rem;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     opacity: 0.85;
+    animation: slideIn 4s ease-out;
 }
 
-/* Button Styling */
-button, .back-button {
-    margin-top: 20px;
+/* Button Styles */
+button {
     padding: 15px 30px;
-    font-size: 1rem;
+    font-size: 18px;
     font-weight: bold;
     background: linear-gradient(90deg, #00f0ff, #0078ff);
     border: none;
-    border-radius: 30px;
+    border-radius: 50px;
     color: #fff;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
+    animation: slideIn 5s ease-out;
 }
-
-button:hover, .back-button:hover {
+button:hover {
     transform: scale(1.1);
     box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
 }
-
-button:active, .back-button:active {
+button:active {
     transform: scale(1.05);
 }
 
@@ -88,37 +74,94 @@ footer {
     bottom: 20px;
     font-size: 14px;
     opacity: 0.8;
+    animation: slideIn 6s ease-out;
+}
+footer .footer-content,
+footer .copyright-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    letter-spacing: 1px;
+}
+footer .copyright-logo span {
+    font-weight: bold;
+    color: #00f0ff;
 }
 
-.footer-content {
-    color: #fff;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+/* Card Container for Credits Page */
+.card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
+    animation: slideIn 2s ease-out;
 }
 
-/* Credits List Styling */
 .credits-list {
     list-style: none;
-    margin: 20px 0;
-    padding: 0;
-    text-align: left;
-    font-size: 1rem;
-    color: #fff;
+    margin-top: 20px;
+    line-height: 1.8;
+    font-size: 1.2rem;
 }
 
-.credits-list li {
-    margin: 5px 0;
+/* Back Button Styling */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(90deg, #0078ff, #00f0ff);
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.back-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
+}
+
+.back-button:active {
+    transform: scale(0.98);
+}
+
+.back-button .button-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.back-button:hover .button-icon {
+    transform: translateX(-5px);
+}
+
+/* Additional Button Container for Layout */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
     h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
     p {
         font-size: 1rem;
     }
-    button, .back-button {
-        padding: 12px 20px;
-        font-size: 0.9rem;
+    button,
+    .back-button {
+        padding: 12px 25px;
+        font-size: 16px;
     }
 }
