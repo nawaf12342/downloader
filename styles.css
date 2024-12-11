@@ -5,31 +5,50 @@
     box-sizing: border-box;
 }
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
+    font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    text-align: center;
+    background: linear-gradient(135deg, #1e1e2f, #313153);
+    color: #fff;
     overflow: hidden;
-    animation: gradientAnimation 10s infinite alternate;
 }
 
-@keyframes gradientAnimation {
-    0% { background: linear-gradient(135deg, #1e3c72, #2a5298); }
-    100% { background: linear-gradient(135deg, #162447, #1f4068); }
+/* Background Overlay with subtle glassmorphism */
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
 }
 
-/* Container */
-.container {
-    animation: slideIn 2s ease-out;
+/* Card Design */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 40px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-/* Loader Styles */
+/* Heading */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0px 4px 10px rgba(0, 255, 255, 0.4);
+}
+
+/* Loader Animation */
 .loader {
-    margin: 10px auto;
+    margin: 20px auto;
     border: 4px solid rgba(255, 255, 255, 0.2);
     border-top: 4px solid #00f0ff;
     border-radius: 50%;
@@ -39,54 +58,64 @@ body {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Heading */
-h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Paragraph */
 p {
-    font-size: 1.2rem;
-    margin: 20px 0;
+    font-size: 1.1rem;
+    margin: 15px 0 30px;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* Button */
 button {
     padding: 15px 30px;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: bold;
-    background: linear-gradient(90deg, #00f0ff, #0078ff);
+    background: linear-gradient(90deg, #0078ff, #00f0ff);
     border: none;
     border-radius: 30px;
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7);
-    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7), 0 0 40px rgba(0, 120, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 button:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(0, 240, 255, 1);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 1), 0 0 60px rgba(0, 120, 255, 0.8);
 }
 button:disabled {
-    background: #ccc;
+    background: rgba(255, 255, 255, 0.2);
     cursor: not-allowed;
 }
 
 /* Footer */
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
-    font-size: 14px;
-    opacity: 0.8;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
 }
-footer span {
-    font-weight: bold;
-    color: #00f0ff;
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }
