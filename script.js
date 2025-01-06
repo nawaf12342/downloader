@@ -5,22 +5,21 @@ document.addEventListener("DOMContentLoaded", () => {
     loading.style.display = "none";
   }, 2000);
 
-  // Custom audio player
+  // Audio Player Functionality
   const audio = document.getElementById("audio");
-  const playPauseButton = document.getElementById("play-pause");
+  const playButton = document.getElementById("play");
+  const pauseButton = document.getElementById("pause");
+  const stopButton = document.getElementById("stop");
   const progressBar = document.querySelector(".progress-bar");
   const progress = document.querySelector(".progress");
   const currentTimeDisplay = document.getElementById("current-time");
   const durationDisplay = document.getElementById("duration");
 
-  playPauseButton.addEventListener("click", () => {
-    if (audio.paused) {
-      audio.play();
-      playPauseButton.textContent = "⏸";
-    } else {
-      audio.pause();
-      playPauseButton.textContent = "⏯";
-    }
+  playButton.addEventListener("click", () => audio.play());
+  pauseButton.addEventListener("click", () => audio.pause());
+  stopButton.addEventListener("click", () => {
+    audio.pause();
+    audio.currentTime = 0;
   });
 
   audio.addEventListener("timeupdate", () => {
@@ -36,12 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   }
-
-  progressBar.addEventListener("click", (e) => {
-    const width = progressBar.offsetWidth;
-    const clickX = e.offsetX;
-    audio.currentTime = (clickX / width) * audio.duration;
-  });
 
   // Show IP Address
   const ip = document.getElementById("ip");
