@@ -21,16 +21,19 @@
         <h1>N. Al-Hamdan</h1>
         <p>Dancing to the rhythm of dreams, where the past meets the infinite future.</p>
       </div>
-      <div class="audio-player">
-        <button id="play-pause" class="play-button">▶️</button>
-        <div class="track-info">
-          <span id="track-title">Never Let Go Of Me - Bravo Six, Going Dark</span>
+
+      <!-- Custom Audio Player -->
+      <div class="custom-audio-player">
+        <div class="player-controls">
+          <button id="play-pause" class="play-button">⏯</button>
           <div class="progress-bar">
             <div class="progress"></div>
           </div>
+          <span id="current-time">0:00</span> / <span id="duration">0:00</span>
         </div>
-        <audio id="audio" src="downloads/Never Let Go Of Me - Bravo Six,Going Dark [EXTENDED].mp3"></audio>
       </div>
+
+      <audio id="audio" src="downloads/Never Let Go Of Me - Bravo Six,Going Dark [EXTENDED].mp3"></audio>
     </div>
   </div>
 
