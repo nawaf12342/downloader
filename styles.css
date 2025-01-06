@@ -1,9 +1,10 @@
-/* Reset styles */
+/* General Reset */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Poppins', sans-serif;
   color: #fff;
+  background: #111;
   overflow: hidden;
 }
 
@@ -74,41 +75,64 @@ body {
   text-align: center;
 }
 
-.glass-box h1 {
-  font-size: 2.5em;
-  margin: 0;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-}
-
-.glass-box p {
-  margin-top: 10px;
-  font-size: 1em;
-  opacity: 0.9;
-}
-
-#ip-container {
+/* Custom Audio Player */
+.custom-audio-player {
   margin-top: 20px;
-  font-size: 1.2em;
+  width: 350px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-#ip {
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.play-button {
+  font-size: 2em;
+  border: none;
+  background: none;
+  color: #f39c12;
   cursor: pointer;
-  text-decoration: underline;
+}
+
+.progress-bar {
+  position: relative;
+  flex-grow: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.progress {
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  background: #f39c12;
+  border-radius: 5px;
+}
+
+/* IP Address Section */
+.ip-section {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #ddd;
 }
 
 .blurred {
-  filter: blur(8px);
-  color: rgba(255, 255, 255, 0.7);
-  transition: filter 0.3s ease, color 0.3s ease;
+  filter: blur(5px);
+  cursor: pointer;
 }
 
 .blurred:hover {
-  color: rgba(255, 255, 255, 0.9);
+  filter: blur(2px);
 }
-
-/* Audio Player */
-.custom-audio-player {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
