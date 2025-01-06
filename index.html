@@ -5,25 +5,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>N. Al-Hamdan</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <!-- Loading Animation -->
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Hero Section -->
   <div class="hero">
     <div class="overlay"></div>
     <div class="hero-content">
-      <h1>N. Al-Hamdan</h1>
-      <p>IDk.</p>
+      <div class="glass-box">
+        <h1>N. Al-Hamdan</h1>
+        <p>Dancing to the rhythm of dreams, where the past meets the infinite future.</p>
+        <div id="ip-container">
+          <span>Your IP: </span>
+          <span id="ip" class="blurred">Click to reveal</span>
+        </div>
+      </div>
     </div>
-    <div class="audio-container">
-      <audio controls autoplay muted>
-        <source src="https://www.youtube.com/watch?v=hqVZeshuKp0" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
+    <div class="custom-audio-player">
+      <button id="play-pause">▶️</button>
+      <span id="track-title">Now Playing: Lo-fi Chill Beats</span>
+      <audio id="audio" src="https://example.com/audio-file.mp3"></audio>
     </div>
   </div>
+
+  <!-- About Section -->
   <div class="about">
     <h2>About Me</h2>
     <p>
-      im nawaf.
+      I’m N. Al-Hamdan, a dreamer, explorer, and lover of the small moments that make life beautiful. 
+      Here to share my journey, one beat at a time.
     </p>
   </div>
 </body>
