@@ -24,11 +24,15 @@
 
       <!-- Custom Audio Player -->
       <div class="custom-audio-player">
-        <div class="player-controls">
-          <button id="play-pause" class="play-button">⏯</button>
+        <button id="play" class="audio-button">▶</button>
+        <button id="pause" class="audio-button">⏸</button>
+        <button id="stop" class="audio-button">⏹</button>
+        <div class="progress-container">
           <div class="progress-bar">
             <div class="progress"></div>
           </div>
+        </div>
+        <div class="time-display">
           <span id="current-time">0:00</span> / <span id="duration">0:00</span>
         </div>
       </div>
