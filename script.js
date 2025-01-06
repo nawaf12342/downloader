@@ -1,20 +1,31 @@
-document.getElementById('generateBtn').addEventListener('click', function() {
-    const textInput = document.getElementById('textInput').value;
-    const asciiOutput = document.getElementById('asciiOutput');
-
-    if (textInput.trim() !== "") {
-        asciiOutput.style.display = 'block'; // Show the ASCII art container
-        
-        // Use figlet.js to convert the text into ASCII art
-        figlet.text(textInput, { font: 'Standard' }, function(err, result) {
-            if (err) {
-                console.log('Something went wrong...', err);
-                asciiOutput.textContent = 'Error generating ASCII Art.';
-            } else {
-                asciiOutput.textContent = result;
-            }
-        });
-    } else {
-        asciiOutput.style.display = 'none'; // Hide if the input is empty
-    }
+// Remove loading animation after 2 seconds
+window.addEventListener('load', () => {
+  const loading = document.getElementById('loading');
+  loading.style.display = 'none';
 });
+
+// Custom Audio Player
+const audio = document.getElementById('audio');
+const playPauseButton = document.getElementById('play-pause');
+
+playPauseButton.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    playPauseButton.textContent = '⏸️';
+  } else {
+    audio.pause();
+    playPauseButton.textContent = '▶️';
+  }
+});
+
+// Show IP Address on Click
+const ipElement = document.getElementById('ip');
+
+fetch('https://api.ipify.org?format=json')
+  .then((response) => response.json())
+  .then((data) => {
+    ipElement.addEventListener('click', () => {
+      ipElement.textContent = data.ip;
+      ipElement.classList.remove('blurred');
+    });
+  });
