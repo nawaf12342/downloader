@@ -1,66 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>N. Al-Hamdan</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Device Info Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.5;
+        }
+        .info {
+            margin-bottom: 10px;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Loading Animation -->
-  <div id="loading">
-    <div class="spinner"></div>
-  </div>
+    <h1>Ultimate Device Info Viewer</h1>
+    <p><strong>Disclaimer:</strong> This is just a fun tool to display device information. No data is sent to any server except for retrieving your public IP.</p>
+    <div id="info-container"></div>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <div class="glass-box">
-        <h1>N. Al-Hamdan</h1>
-        <p>Dancing to the rhythm of dreams, where the past meets the infinite future.</p>
-      </div>
+    <script>
+        async function getDeviceInfo() {
+            const container = document.getElementById("info-container");
 
-      <!-- Custom Audio Player -->
-      <div class="custom-audio-player">
-        <button id="play" class="audio-button">▶</button>
-        <button id="pause" class="audio-button">⏸</button>
-        <button id="stop" class="audio-button">⏹</button>
-        <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress"></div>
-          </div>
-        </div>
-        <div class="time-display">
-          <span id="current-time">0:00</span> / <span id="duration">0:00</span>
-        </div>
-      </div>
+            // Helper function to add info to the container
+            function addInfo(title, value) {
+                const div = document.createElement("div");
+                div.className = "info";
+                div.innerHTML = `<strong>${title}:</strong> ${value}`;
+                container.appendChild(div);
+            }
 
-      <audio id="audio" src="downloads/Never Let Go Of Me - Bravo Six,Going Dark [EXTENDED].mp3"></audio>
+            // Basic info
+            addInfo("Browser Name", navigator.appName);
+            addInfo("Browser Version", navigator.appVersion);
+            addInfo("User Agent", navigator.userAgent);
+            addInfo("Platform", navigator.platform);
+            addInfo("Language", navigator.language);
+            addInfo("Cookies Enabled", navigator.cookieEnabled);
 
-      <!-- Download Button for the loader -->
-      <div class="download-section">
-        <a href="https://github.com/nawaf12342/downloader/raw/main/downloads/loader.exe" download="loaderr.zip">
-          <button class="download-button">Download Loader</button>
-        </a>
-      </div>
-    </div>
-  </div>
+            // Hardware info
+            addInfo("Number of CPU Threads", navigator.hardwareConcurrency || "N/A");
+            addInfo("Device Memory (GB)", navigator.deviceMemory || "N/A");
 
-  <!-- About Section -->
-  <div class="about">
-    <h2>About Me</h2>
-    <p>
-      I’m N. Al-Hamdan, a dreamer, explorer, and lover of the small moments that make life beautiful. 
-      Here to share my journey, one beat at a time.
-    </p>
-  </div>
+            // Screen info
+            addInfo("Screen Width", screen.width);
+            addInfo("Screen Height", screen.height);
+            addInfo("Available Screen Width", screen.availWidth);
+            addInfo("Available Screen Height", screen.availHeight);
+            addInfo("Screen Color Depth", screen.colorDepth);
+            addInfo("Screen Pixel Depth", screen.pixelDepth);
 
-  <!-- IP Address Sectiosn -->
-  <div class="ip-section">
-    <span>Your IP: </span>
-    <span id="ip" class="blurred">Click to reveal</span>
-  </div>
+            // Window info
+            addInfo("Window Inner Width", window.innerWidth);
+            addInfo("Window Inner Height", window.innerHeight);
+            addInfo("Window Outer Width", window.outerWidth);
+            addInfo("Window Outer Height", window.outerHeight);
+
+            // IP Address (using external API)
+            try {
+                const ipResponse = await fetch("https://api.ipify.org?format=json");
+                const ipData = await ipResponse.json();
+                addInfo("Public IP Address", ipData.ip);
+            } catch (error) {
+                addInfo("Public IP Address", "Unable to retrieve");
+            }
+
+            // Timezone and location
+            addInfo("Timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
+            addInfo("Locale", Intl.DateTimeFormat().resolvedOptions().locale);
+
+            // Battery status (if supported)
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    addInfo("Battery Charging", battery.charging ? "Yes" : "No");
+                    addInfo("Battery Level (%)", Math.round(battery.level * 100));
+                    addInfo("Battery Charging Time (s)", battery.chargingTime || "N/A");
+                    addInfo("Battery Discharging Time (s)", battery.dischargingTime || "N/A");
+                } catch {
+                    addInfo("Battery Info", "Not supported");
+                }
+            }
+
+            // Online status
+            addInfo("Online Status", navigator.onLine ? "Online" : "Offline");
+
+            // Touch support
+            addInfo("Touch Support", "ontouchstart" in window || navigator.maxTouchPoints > 0 ? "Yes" : "No");
+        }
+
+        // Call the function to populate the info
+        getDeviceInfo();
+    </script>
 </body>
 </html>
