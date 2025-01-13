@@ -3,24 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Device Info Viewer</title>
+    <title>Detailed Device Info Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
             line-height: 1.5;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
         }
         .info {
-            margin-bottom: 10px;
-            background-color: #f4f4f4;
+            margin-bottom: 15px;
             padding: 10px;
+            background: #e8f4fc;
+            border: 1px solid #d1e7f7;
             border-radius: 5px;
+        }
+        strong {
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Ultimate Device Info Viewer</h1>
-    <p><strong>Disclaimer:</strong> This is just a fun tool to display device information. No data is sent to any server except for retrieving your public IP.</p>
+    <h1>Detailed Device Info Viewer</h1>
+    <p><strong>Note:</strong> This tool fetches as much device and system information as possible using JavaScript.</p>
     <div id="info-container"></div>
 
     <script>
@@ -35,66 +43,65 @@
                 container.appendChild(div);
             }
 
-            // Basic info
-            addInfo("Browser Name", navigator.appName);
-            addInfo("Browser Version", navigator.appVersion);
-            addInfo("User Agent", navigator.userAgent);
-            addInfo("Platform", navigator.platform);
-            addInfo("Language", navigator.language);
-            addInfo("Cookies Enabled", navigator.cookieEnabled);
+            // Basic browser information
+            addInfo("Browser Name", navigator.appName || "Unknown");
+            addInfo("Browser Version", navigator.appVersion || "Unknown");
+            addInfo("User Agent", navigator.userAgent || "Unknown");
+            addInfo("Platform", navigator.platform || "Unknown");
+            addInfo("Language", navigator.language || "Unknown");
 
-            // Hardware info
-            addInfo("Number of CPU Threads", navigator.hardwareConcurrency || "N/A");
-            addInfo("Device Memory (GB)", navigator.deviceMemory || "N/A");
+            // Screen information
+            addInfo("Screen Resolution", `${screen.width} x ${screen.height}`);
+            addInfo("Available Screen Size", `${screen.availWidth} x ${screen.availHeight}`);
+            addInfo("Color Depth", `${screen.colorDepth}-bit`);
+            addInfo("Pixel Depth", `${screen.pixelDepth}-bit`);
 
-            // Screen info
-            addInfo("Screen Width", screen.width);
-            addInfo("Screen Height", screen.height);
-            addInfo("Available Screen Width", screen.availWidth);
-            addInfo("Available Screen Height", screen.availHeight);
-            addInfo("Screen Color Depth", screen.colorDepth);
-            addInfo("Screen Pixel Depth", screen.pixelDepth);
+            // Window dimensions
+            addInfo("Window Inner Size", `${window.innerWidth} x ${window.innerHeight}`);
+            addInfo("Window Outer Size", `${window.outerWidth} x ${window.outerHeight}`);
 
-            // Window info
-            addInfo("Window Inner Width", window.innerWidth);
-            addInfo("Window Inner Height", window.innerHeight);
-            addInfo("Window Outer Width", window.outerWidth);
-            addInfo("Window Outer Height", window.outerHeight);
+            // Hardware information
+            addInfo("CPU Threads (Concurrency)", navigator.hardwareConcurrency || "Unknown");
+            addInfo("Device Memory (GB)", navigator.deviceMemory || "Unknown");
 
-            // IP Address (using external API)
+            // Online and network information
+            addInfo("Online Status", navigator.onLine ? "Online" : "Offline");
+
+            // Fetch public IP using external API
             try {
                 const ipResponse = await fetch("https://api.ipify.org?format=json");
                 const ipData = await ipResponse.json();
-                addInfo("Public IP Address", ipData.ip);
-            } catch (error) {
-                addInfo("Public IP Address", "Unable to retrieve");
+                addInfo("Public IP Address", ipData.ip || "Unknown");
+            } catch {
+                addInfo("Public IP Address", "Failed to retrieve");
             }
 
-            // Timezone and location
-            addInfo("Timezone", Intl.DateTimeFormat().resolvedOptions().timeZone);
-            addInfo("Locale", Intl.DateTimeFormat().resolvedOptions().locale);
+            // Timezone and locale
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+            addInfo("Timezone", timezone);
+            addInfo("Locale", Intl.DateTimeFormat().resolvedOptions().locale || "Unknown");
 
-            // Battery status (if supported)
+            // Battery information (if supported)
             if (navigator.getBattery) {
                 try {
                     const battery = await navigator.getBattery();
                     addInfo("Battery Charging", battery.charging ? "Yes" : "No");
-                    addInfo("Battery Level (%)", Math.round(battery.level * 100));
-                    addInfo("Battery Charging Time (s)", battery.chargingTime || "N/A");
-                    addInfo("Battery Discharging Time (s)", battery.dischargingTime || "N/A");
+                    addInfo("Battery Level (%)", `${Math.round(battery.level * 100)}%`);
+                    addInfo("Battery Charging Time (seconds)", battery.chargingTime || "N/A");
+                    addInfo("Battery Discharging Time (seconds)", battery.dischargingTime || "N/A");
                 } catch {
                     addInfo("Battery Info", "Not supported");
                 }
+            } else {
+                addInfo("Battery Info", "Not supported");
             }
 
-            // Online status
-            addInfo("Online Status", navigator.onLine ? "Online" : "Offline");
-
-            // Touch support
-            addInfo("Touch Support", "ontouchstart" in window || navigator.maxTouchPoints > 0 ? "Yes" : "No");
+            // Touchscreen support
+            const isTouchSupported = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+            addInfo("Touch Support", isTouchSupported ? "Yes" : "No");
         }
 
-        // Call the function to populate the info
+        // Execute the function to fetch device information
         getDeviceInfo();
     </script>
 </body>
