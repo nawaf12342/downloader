@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loader</title>
+    <style>
+        body { /* Same styles as index.html */ }
+    </style>
+</head>
+<body>
+    <div class="info-container">
+        <button onclick="downloadLoader()">Download MEX CLIENT LOADER</button>
+    </div>
+    <footer>
+        <a href="index.html">Home</a>
+    </footer>
+    <audio autoplay loop>
+        <source src="https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/King%20Von%20Anti%20piracy%20screen%20(for%20my%20pc).mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function downloadLoader() {
+            const link = document.createElement("a");
+            link.href =
+                "https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/loader.exe";
+            link.download = "loader.exe";
+            link.click();
+        }
+    </script>
+</body>
+</html>
