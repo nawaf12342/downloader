@@ -3,105 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detailed Device Info Viewer</title>
+    <title>Device Info Viewer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.5;
-            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            background: url('https://i.pinimg.com/736x/13/ea/e2/13eae248980fd53250e515d9de5d2bef.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
         }
-        h1 {
-            color: #333;
+
+        .info-container {
+            text-align: center;
+            max-width: 80%;
         }
+
         .info {
-            margin-bottom: 15px;
-            padding: 10px;
-            background: #e8f4fc;
-            border: 1px solid #d1e7f7;
-            border-radius: 5px;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
-        strong {
-            color: #555;
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: #fff;
+            animation: blink 0.7s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Detailed Device Info Viewer</h1>
-    <p><strong>Note:</strong> This tool fetches as much device and system information as possible using JavaScript.</p>
-    <div id="info-container"></div>
+    <div class="info-container">
+        <div class="info" id="info"></div>
+        <div class="cursor"></div>
+    </div>
 
     <script>
         async function getDeviceInfo() {
-            const container = document.getElementById("info-container");
+            const infoContainer = document.getElementById("info");
 
-            // Helper function to add info to the container
-            function addInfo(title, value) {
-                const div = document.createElement("div");
-                div.className = "info";
-                div.innerHTML = `<strong>${title}:</strong> ${value}`;
-                container.appendChild(div);
+            // Function to simulate typing effect
+            function typeText(text) {
+                return new Promise((resolve) => {
+                    let index = 0;
+                    const interval = setInterval(() => {
+                        if (index < text.length) {
+                            infoContainer.innerHTML += text[index++];
+                        } else {
+                            clearInterval(interval);
+                            resolve();
+                        }
+                    }, 50); // Adjust typing speed here
+                });
             }
 
-            // Basic browser information
-            addInfo("Browser Name", navigator.appName || "Unknown");
-            addInfo("Browser Version", navigator.appVersion || "Unknown");
-            addInfo("User Agent", navigator.userAgent || "Unknown");
-            addInfo("Platform", navigator.platform || "Unknown");
-            addInfo("Language", navigator.language || "Unknown");
-
-            // Screen information
-            addInfo("Screen Resolution", `${screen.width} x ${screen.height}`);
-            addInfo("Available Screen Size", `${screen.availWidth} x ${screen.availHeight}`);
-            addInfo("Color Depth", `${screen.colorDepth}-bit`);
-            addInfo("Pixel Depth", `${screen.pixelDepth}-bit`);
-
-            // Window dimensions
-            addInfo("Window Inner Size", `${window.innerWidth} x ${window.innerHeight}`);
-            addInfo("Window Outer Size", `${window.outerWidth} x ${window.outerHeight}`);
-
-            // Hardware information
-            addInfo("CPU Threads (Concurrency)", navigator.hardwareConcurrency || "Unknown");
-            addInfo("Device Memory (GB)", navigator.deviceMemory || "Unknown");
-
-            // Online and network information
-            addInfo("Online Status", navigator.onLine ? "Online" : "Offline");
-
-            // Fetch public IP using external API
+            // Fetch public IP
+            let publicIP = "Unable to retrieve";
             try {
                 const ipResponse = await fetch("https://api.ipify.org?format=json");
                 const ipData = await ipResponse.json();
-                addInfo("Public IP Address", ipData.ip || "Unknown");
-            } catch {
-                addInfo("Public IP Address", "Failed to retrieve");
-            }
+                publicIP = ipData.ip;
+            } catch {}
 
-            // Timezone and locale
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
-            addInfo("Timezone", timezone);
-            addInfo("Locale", Intl.DateTimeFormat().resolvedOptions().locale || "Unknown");
+            // Gather all device info
+            const deviceInfo = `
+Browser Name: ${navigator.appName || "Unknown"}
+Browser Version: ${navigator.appVersion || "Unknown"}
+User Agent: ${navigator.userAgent || "Unknown"}
+Platform: ${navigator.platform || "Unknown"}
+Language: ${navigator.language || "Unknown"}
 
-            // Battery information (if supported)
-            if (navigator.getBattery) {
-                try {
-                    const battery = await navigator.getBattery();
-                    addInfo("Battery Charging", battery.charging ? "Yes" : "No");
-                    addInfo("Battery Level (%)", `${Math.round(battery.level * 100)}%`);
-                    addInfo("Battery Charging Time (seconds)", battery.chargingTime || "N/A");
-                    addInfo("Battery Discharging Time (seconds)", battery.dischargingTime || "N/A");
-                } catch {
-                    addInfo("Battery Info", "Not supported");
-                }
-            } else {
-                addInfo("Battery Info", "Not supported");
-            }
+Screen Resolution: ${screen.width} x ${screen.height}
+Available Screen Size: ${screen.availWidth} x ${screen.availHeight}
+Color Depth: ${screen.colorDepth}-bit
+Pixel Depth: ${screen.pixelDepth}-bit
 
-            // Touchscreen support
-            const isTouchSupported = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-            addInfo("Touch Support", isTouchSupported ? "Yes" : "No");
+Window Inner Size: ${window.innerWidth} x ${window.innerHeight}
+Window Outer Size: ${window.outerWidth} x ${window.outerHeight}
+
+CPU Threads: ${navigator.hardwareConcurrency || "Unknown"}
+Device Memory (GB): ${navigator.deviceMemory || "Unknown"}
+Online Status: ${navigator.onLine ? "Online" : "Offline"}
+
+Public IP Address: ${publicIP}
+
+Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown"}
+Locale: ${Intl.DateTimeFormat().resolvedOptions().locale || "Unknown"}
+
+Touch Support: ${"ontouchstart" in window || navigator.maxTouchPoints > 0 ? "Yes" : "No"}
+            `;
+
+            // Type out the information
+            await typeText(deviceInfo.trim());
         }
 
-        // Execute the function to fetch device information
+        // Fetch and display the device info
         getDeviceInfo();
     </script>
 </body>
