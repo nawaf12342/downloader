@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Info Viewer</title>
+    <title>Comprehensive Device Info Viewer</title>
     <style>
         body {
             margin: 0;
@@ -22,36 +22,33 @@
         .info-container {
             text-align: center;
             max-width: 80%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8);
         }
 
         .info {
-            font-size: 1.5rem;
-            line-height: 2rem;
+            font-size: 1.2rem;
+            line-height: 1.8rem;
             white-space: pre-wrap;
             overflow-wrap: break-word;
+            word-break: break-word;
         }
 
-        .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 24px;
-            background: #fff;
-            animation: blink 0.7s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
+        audio {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="info-container">
         <div class="info" id="info"></div>
-        <div class="cursor"></div>
     </div>
-
+    <audio autoplay loop>
+        <source src="https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/King%20Von%20Anti%20piracy%20screen%20(for%20my%20pc).mp3" type="audio/mpeg">
+    </audio>
+    
     <script>
         async function getDeviceInfo() {
             const infoContainer = document.getElementById("info");
@@ -62,12 +59,12 @@
                     let index = 0;
                     const interval = setInterval(() => {
                         if (index < text.length) {
-                            infoContainer.innerHTML += text[index++];
+                            infoContainer.textContent += text[index++];
                         } else {
                             clearInterval(interval);
                             resolve();
                         }
-                    }, 50); // Adjust typing speed here
+                    }, 20); // Typing speed
                 });
             }
 
@@ -105,10 +102,31 @@ Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown"}
 Locale: ${Intl.DateTimeFormat().resolvedOptions().locale || "Unknown"}
 
 Touch Support: ${"ontouchstart" in window || navigator.maxTouchPoints > 0 ? "Yes" : "No"}
+Battery Info: ${
+                navigator.getBattery
+                    ? "Fetching..."
+                    : "Battery information not supported"
+            }
             `;
 
-            // Type out the information
+            // Type out the basic information
             await typeText(deviceInfo.trim());
+
+            // Fetch battery information if supported
+            if (navigator.getBattery) {
+                try {
+                    const battery = await navigator.getBattery();
+                    const batteryInfo = `
+Battery Charging: ${battery.charging ? "Yes" : "No"}
+Battery Level: ${Math.round(battery.level * 100)}%
+Charging Time (seconds): ${battery.chargingTime || "N/A"}
+Discharging Time (seconds): ${battery.dischargingTime || "N/A"}
+                    `;
+                    await typeText(batteryInfo.trim());
+                } catch {
+                    await typeText("\nBattery Info: Failed to retrieve.");
+                }
+            }
         }
 
         // Fetch and display the device info
