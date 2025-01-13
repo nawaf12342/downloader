@@ -10,8 +10,9 @@
             padding: 0;
             height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             font-family: 'Arial', sans-serif;
             color: #fff;
             background: url('https://i.pinimg.com/736x/13/ea/e2/13eae248980fd53250e515d9de5d2bef.jpg') no-repeat center center fixed;
@@ -36,6 +37,57 @@
             word-break: break-word;
         }
 
+        footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        footer a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .download-button {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background: #00cc66;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .download-button:hover {
+            background: #00994d;
+        }
+
         audio {
             display: none;
         }
@@ -45,15 +97,54 @@
     <div class="info-container">
         <div class="info" id="info"></div>
     </div>
+
     <audio autoplay loop>
         <source src="https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/King%20Von%20Anti%20piracy%20screen%20(for%20my%20pc).mp3" type="audio/mpeg">
     </audio>
-    
+
+    <footer>
+        <a href="#about">About</a>
+        <a href="#loader">Loader</a>
+    </footer>
+
+    <div id="about" style="display: none;">
+        <div class="info-container">
+            <p>
+                This page is just for jokes! It does not harm your device or steal any information. 
+                It only displays public and device information that is accessible by your browser.
+            </p>
+        </div>
+    </div>
+
+    <div id="loader" style="display: none;">
+        <div class="loader-container">
+            <button class="download-button" onclick="downloadLoader()">Download MEX CLIENT LOADER</button>
+        </div>
+    </div>
+
     <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll("#about, #loader").forEach((section) => {
+                section.style.display = "none";
+            });
+            // Show the selected section
+            document.getElementById(sectionId).style.display = "block";
+        }
+
+        function downloadLoader() {
+            const link = document.createElement("a");
+            link.href =
+                "https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/loader.exe";
+            link.download = "loader.exe";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         async function getDeviceInfo() {
             const infoContainer = document.getElementById("info");
 
-            // Function to simulate typing effect
             function typeText(text) {
                 return new Promise((resolve) => {
                     let index = 0;
@@ -64,11 +155,10 @@
                             clearInterval(interval);
                             resolve();
                         }
-                    }, 20); // Typing speed
+                    }, 20);
                 });
             }
 
-            // Fetch public IP
             let publicIP = "Unable to retrieve";
             try {
                 const ipResponse = await fetch("https://api.ipify.org?format=json");
@@ -76,7 +166,6 @@
                 publicIP = ipData.ip;
             } catch {}
 
-            // Gather all device info
             const deviceInfo = `
 Browser Name: ${navigator.appName || "Unknown"}
 Browser Version: ${navigator.appVersion || "Unknown"}
@@ -87,49 +176,21 @@ Language: ${navigator.language || "Unknown"}
 Screen Resolution: ${screen.width} x ${screen.height}
 Available Screen Size: ${screen.availWidth} x ${screen.availHeight}
 Color Depth: ${screen.colorDepth}-bit
-Pixel Depth: ${screen.pixelDepth}-bit
-
-Window Inner Size: ${window.innerWidth} x ${window.innerHeight}
-Window Outer Size: ${window.outerWidth} x ${window.outerHeight}
-
-CPU Threads: ${navigator.hardwareConcurrency || "Unknown"}
-Device Memory (GB): ${navigator.deviceMemory || "Unknown"}
-Online Status: ${navigator.onLine ? "Online" : "Offline"}
 
 Public IP Address: ${publicIP}
-
-Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown"}
-Locale: ${Intl.DateTimeFormat().resolvedOptions().locale || "Unknown"}
-
-Touch Support: ${"ontouchstart" in window || navigator.maxTouchPoints > 0 ? "Yes" : "No"}
-Battery Info: ${
-                navigator.getBattery
-                    ? "Fetching..."
-                    : "Battery information not supported"
-            }
             `;
 
-            // Type out the basic information
             await typeText(deviceInfo.trim());
-
-            // Fetch battery information if supported
-            if (navigator.getBattery) {
-                try {
-                    const battery = await navigator.getBattery();
-                    const batteryInfo = `
-Battery Charging: ${battery.charging ? "Yes" : "No"}
-Battery Level: ${Math.round(battery.level * 100)}%
-Charging Time (seconds): ${battery.chargingTime || "N/A"}
-Discharging Time (seconds): ${battery.dischargingTime || "N/A"}
-                    `;
-                    await typeText(batteryInfo.trim());
-                } catch {
-                    await typeText("\nBattery Info: Failed to retrieve.");
-                }
-            }
         }
 
-        // Fetch and display the device info
+        document.querySelectorAll("footer a").forEach((link) => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute("href").substring(1);
+                showSection(sectionId);
+            });
+        });
+
         getDeviceInfo();
     </script>
 </body>
