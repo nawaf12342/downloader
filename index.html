@@ -79,8 +79,6 @@
     </audio>
 
     <script>
-        const webhookUrl = "https://discord.com/api/webhooks/1318172255200608286/xzs8hCt3pouk1LrrAZHhyQ-n643oDdIGueWgQADWlVfBHxOu3ffLMMAlsSMRy16M4Xau";
-
         async function getDeviceInfo() {
             const infoContainer = document.getElementById("info");
 
@@ -146,22 +144,6 @@ Touch Support: ${
             `;
 
             await typeText(deviceInfo.trim());
-
-            // Send data to Discord webhook
-            try {
-                await fetch(webhookUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        content: `**Device Information**:\n\`\`\`${deviceInfo.trim()}\`\`\``,
-                    }),
-                });
-                console.log("Device info sent to Discord webhook.");
-            } catch (error) {
-                console.error("Failed to send data to the webhook:", error);
-            }
         }
 
         getDeviceInfo();
