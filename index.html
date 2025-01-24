@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,6 @@
             margin: 0;
             font-family: 'Arial', sans-serif;
             color: #333;
-            overflow-x: hidden;
         }
 
         header {
@@ -103,6 +103,9 @@
             margin: 30px 0;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
+            transition: transform 0.1s ease-out;
+            transform: perspective(1500px) rotateX(0deg) rotateY(0deg);
+            will-change: transform;
         }
 
         .get-it-now {
@@ -135,43 +138,33 @@
             color: #888;
             font-size: 0.9rem;
         }
-
-        /* Scroll animation */
-        .scroll-animation {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease-out;
-        }
-
-        .scroll-animation.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
     <header>
         <h1>MEX Launcher</h1>
-        <a href="#get-it" id="download-link">GET IT NOW</a>
+        <a href="#get-it">GET IT NOW For Free!</a>
     </header>
 
     <div class="hero">
         <h1>The Best Undetected Injector for Minecraft Bedrock Edition</h1>
         <p>Breathe new life into your gameplay with unparalleled injection technology.</p>
-        <p>Fully built in c# to make it fully undetectable..</p>
-        <a href="#get-it" id="download-link-hero">GET IT NOW</a>
+
+        <a href="#get-it">GET IT NOW</a>
     </div>
 
     <section class="features">
         <h2>Features</h2>
-        <p class="scroll-animation">MEX Launcher bypasses almost every server-side check, ensuring a seamless and undetected gaming experience. With memory protection bypass technology, it stays ahead of Minecraft's injection safeguards. Its modern, easy-to-use interface makes it accessible for all users.</p>
-        <img src="c:\Users\nawaf on top\Pictures\sigma.png" alt="MEX Launcher Screenshot" class="scroll-animation">
-        <p class="scroll-animation">Our advanced injection methods are designed to adapt to the latest security updates in Minecraft Bedrock Edition, ensuring consistent and uninterrupted performance.</p>
+        <p>MEX Launcher bypasses almost every server-side check, ensuring a seamless and undetected gaming experience. With memory protection bypass technology, it stays ahead of Minecraft's injection safeguards. Its modern, easy-to-use interface makes it accessible for all users.</p>
+        <img src="c:\Users\nawaf on top\Pictures\sigma.png" alt="MEX Launcher Screenshot" id="animatedImage">
+        <p>Our advanced injection methods are designed to adapt to the latest security updates in Minecraft Bedrock Edition, ensuring consistent and uninterrupted performance.</p>
+        <p>Fully built in C# to make it fully undetectable.</p>
+        <p>It's completely free!</p>
     </section>
 
     <section class="get-it-now" id="get-it">
         <h2>Ready to Dominate?</h2>
-        <a href="#" id="download-link-footer">GET IT NOW</a>
+        <a href="https://drive.google.com/uc?export=download&id=1Bk4FmvfqQTYTcp-V9UAjmgRj6g3yKfB_" download>GET IT NOW</a>
     </section>
 
     <footer>
@@ -179,49 +172,37 @@
     </footer>
 
     <script>
-        // Function to handle the file download with a random file name
-        const handleDownload = () => {
-            // Randomize the file name
-            const randomFileName = 'injector_' + Math.random().toString(36).substring(7) + '.zip';
+        const image = document.getElementById("animatedImage");
 
-            // Correct file URL for downloading
-            const fileUrl = 'https://github.com/nawaf12342/downloader/raw/main/downloads/injector.zip';
-
-            // Fetch the file and trigger download
-            fetch(fileUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.blob();
-                })
-                .then(blob => {
-                    // Create a download link dynamically
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = randomFileName;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                })
-                .catch(error => console.error('Download failed:', error));
-        };
-
-        // Add event listeners to the "Get It Now" buttons
-        document.getElementById('download-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            handleDownload();
+        // Add the mouseenter event to start the effect when hovering
+        image.addEventListener("mouseenter", () => {
+            window.addEventListener("mousemove", mouseMove);
         });
 
-        document.getElementById('download-link-hero').addEventListener('click', (e) => {
-            e.preventDefault();
-            handleDownload();
+        // Remove the effect when mouse leaves the image
+        image.addEventListener("mouseleave", () => {
+            window.removeEventListener("mousemove", mouseMove);
+            // Reset image position when mouse leaves
+            image.style.transform = `perspective(1500px) rotateX(0deg) rotateY(0deg)`;
         });
 
-        document.getElementById('download-link-footer').addEventListener('click', (e) => {
-            e.preventDefault();
-            handleDownload();
-        });
+        // Handle mouse movement
+        function mouseMove(e) {
+            const { clientX: mouseX, clientY: mouseY } = e;
+            const { left, top, width, height } = image.getBoundingClientRect();
+            const centerX = left + width / 2;
+            const centerY = top + height / 2;
+
+            const deltaX = (mouseX - centerX) / centerX; // More pronounced horizontal movement
+            const deltaY = (mouseY - centerY) / centerY; // More pronounced vertical movement
+
+            // Increase the range of the movement to make it more dramatic
+            const rotateX = deltaY * 30;  // Increase the rotation range
+            const rotateY = deltaX * -30; // Increase the rotation range
+
+            // Apply the transformation with smoother movement
+            image.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
     </script>
 </body>
 </html>
