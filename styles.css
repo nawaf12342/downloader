@@ -1,90 +1,53 @@
-/* General Reset */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-  color: #fff;
-  background: #111;
-  overflow: hidden;
+/* General Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #87CEEB, #0077be); /* Ocean gradient */
 }
 
-/* Loading Animation */
-#loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+.ocean {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  border-top: 5px solid #fff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* Whale SVG */
+#whale {
+    position: absolute;
+    width: 150px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+/* Waves */
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: wave-animation 5s infinite linear;
 }
 
-/* Hero Section */
-.hero {
-  position: relative;
-  height: 100vh;
-  background: url('https://i.pinimg.com/originals/b5/64/5f/b5645ff5fe6a9191e89f90ce433aef64.gif') center/cover no-repeat;
+.wave1 {
+    animation-duration: 7s;
+    opacity: 0.7;
 }
 
-.hero .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+.wave2 {
+    animation-duration: 10s;
+    opacity: 0.4;
 }
 
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 1;
+@keyframes wave-animation {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
-
-/* Glass Box */
-.glass-box {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  padding: 30px 50px;
-  backdrop-filter: blur(12px);
-  color: #fff;
-  max-width: 450px;
-  text-align: center;
-  animation: fadeIn 1.5s ease-in-out;
-}
-
-/* Custom Audio Player */
-.custom-audio-player {
-  margin-top: 20px;
-  width: 350px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  display: flex;
- 
