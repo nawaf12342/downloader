@@ -1,208 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEX Launcher - The Best Undetected Injector</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #1e1e2f;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header h1 {
-            font-size: 24px;
-            margin: 0;
-        }
-
-        header a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            background: #ff4500;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-
-        header a:hover {
-            background: #ff5733;
-        }
-
-        .hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #1e1e2f, #ff4500);
-            color: white;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin: 0;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin: 20px 0;
-        }
-
-        .hero a {
-            text-decoration: none;
-            padding: 15px 30px;
-            background: white;
-            color: #ff4500;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .hero a:hover {
-            background: #ffe0cc;
-            transform: scale(1.1);
-        }
-
-        .features {
-            padding: 50px 20px;
-            text-align: center;
-            background: #f5f5f5;
-        }
-
-        .features h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .features p {
-            max-width: 700px;
-            margin: 0 auto 30px auto;
-            line-height: 1.8;
-            font-size: 1.2rem;
-        }
-
-        .features img {
-            width: 100%;
-            max-width: 500px;
-            margin: 30px 0;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            transition: transform 0.1s ease-out;
-            transform: perspective(1500px) rotateX(0deg) rotateY(0deg);
-            will-change: transform;
-        }
-
-        .get-it-now {
-            padding: 50px 20px;
-            text-align: center;
-            background: #1e1e2f;
-            color: white;
-        }
-
-        .get-it-now a {
-            text-decoration: none;
-            padding: 15px 40px;
-            background: #ff4500;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .get-it-now a:hover {
-            background: #ff5733;
-            transform: scale(1.1);
-        }
-
-        footer {
-            padding: 20px;
-            text-align: center;
-            background: #121212;
-            color: #888;
-            font-size: 0.9rem;
-        }
-    </style>
+    <title>Whale Movement</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>MEX Launcher</h1>
-        <a href="#get-it">GET IT NOW For Free!</a>
-    </header>
-
-    <div class="hero">
-        <h1>The Best Undetected Injector for Minecraft Bedrock Edition</h1>
-        <p>Breathe new life into your gameplay with unparalleled injection technology.</p>
-
-        <a href="#get-it">GET IT NOW</a>
+    <div class="ocean">
+        <svg id="whale" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+            <!-- Whale Body -->
+            <path d="M20 50 Q100 0 180 50 Q100 100 20 50 Z" fill="#1e90ff" />
+            <!-- Whale Tail -->
+            <path d="M180 50 Q200 40 200 60 Q190 70 180 50 Z" fill="#1e90ff" />
+            <!-- Whale Eye -->
+            <circle cx="40" cy="40" r="5" fill="#ffffff" />
+        </svg>
+        <!-- Waves -->
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
     </div>
-
-    <section class="features">
-        <h2>Features</h2>
-        <p>MEX Launcher bypasses almost every server-side check, ensuring a seamless and undetected gaming experience. With memory protection bypass technology, it stays ahead of Minecraft's injection safeguards. Its modern, easy-to-use interface makes it accessible for all users.</p>
-        <img src="c:\Users\nawaf on top\Pictures\sigma.png" alt="MEX Launcher Screenshot" id="animatedImage">
-        <p>Our advanced injection methods are designed to adapt to the latest security updates in Minecraft Bedrock Edition, ensuring consistent and uninterrupted performance.</p>
-        <p>Fully built in C# to make it fully undetectable.</p>
-        <p>It's completely free!</p>
-    </section>
-
-    <section class="get-it-now" id="get-it">
-        <h2>Ready to Dominate?</h2>
-        <a href="https://drive.google.com/uc?export=download&id=1Bk4FmvfqQTYTcp-V9UAjmgRj6g3yKfB_" download>GET IT NOW</a>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 MEX Launcher. All Rights Reserved.</p>
-    </footer>
-
-    <script>
-        const image = document.getElementById("animatedImage");
-
-        // Add the mouseenter event to start the effect when hovering
-        image.addEventListener("mouseenter", () => {
-            window.addEventListener("mousemove", mouseMove);
-        });
-
-        // Remove the effect when mouse leaves the image
-        image.addEventListener("mouseleave", () => {
-            window.removeEventListener("mousemove", mouseMove);
-            // Reset image position when mouse leaves
-            image.style.transform = `perspective(1500px) rotateX(0deg) rotateY(0deg)`;
-        });
-
-        // Handle mouse movement
-        function mouseMove(e) {
-            const { clientX: mouseX, clientY: mouseY } = e;
-            const { left, top, width, height } = image.getBoundingClientRect();
-            const centerX = left + width / 2;
-            const centerY = top + height / 2;
-
-            const deltaX = (mouseX - centerX) / centerX; // More pronounced horizontal movement
-            const deltaY = (mouseY - centerY) / centerY; // More pronounced vertical movement
-
-            // Increase the range of the movement to make it more dramatic
-            const rotateX = deltaY * 30;  // Increase the rotation range
-            const rotateY = deltaX * -30; // Increase the rotation range
-
-            // Apply the transformation with smoother movement
-            image.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
