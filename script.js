@@ -1,36 +1,46 @@
-// Load MobileNet model
-let model;
+// Load the GPT-2 model
 async function loadModel() {
-    model = await mobilenet.load();
-    console.log("Model loaded!");
+    const model = await transformers.AutoModelForCausalLM.from_pretrained('gpt2');
+    const tokenizer = await transformers.AutoTokenizer.from_pretrained('gpt2');
+    return { model, tokenizer };
 }
 
-// Classify the uploaded image
-async function classifyImage(image) {
-    const predictions = await model.classify(image);
-    console.log(predictions);
-
-    // Display the top prediction
-    const resultElement = document.getElementById('result');
-    resultElement.innerHTML = `Prediction: <strong>${predictions[0].className}</strong> (${Math.round(predictions[0].probability * 100)}%)`;
+// Generate a response using the GPT-2 model
+async function generateResponse(model, tokenizer, inputText) {
+    const inputIds = tokenizer.encode(inputText, { return_tensors: 'tf' });
+    const output = await model.generate(inputIds, {
+        max_length: 50,
+        num_return_sequences: 1,
+    });
+    const responseText = tokenizer.decode(output[0], { skip_special_tokens: true });
+    return responseText;
 }
 
-// Handle image upload
-document.getElementById('image-upload').addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = document.getElementById('preview');
-            img.src = e.target.result;
-            img.style.display = 'block';
+// Handle user input
+async function handleUserInput() {
+    const userInput = document.getElementById('user-input').value;
+    if (!userInput.trim()) return;
 
-            // Classify the image once it's loaded
-            img.onload = () => classifyImage(img);
-        };
-        reader.readAsDataURL(file);
-    }
+    // Add user message to chat box
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML += `<div class="user-message">You: ${userInput}</div>`;
+
+    // Clear input
+    document.getElementById('user-input').value = '';
+
+    // Generate AI response
+    const { model, tokenizer } = await loadModel();
+    const response = await generateResponse(model, tokenizer, userInput);
+
+    // Add AI response to chat box
+    chatBox.innerHTML += `<div class="ai-message">AI: ${response}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+}
+
+// Event listener for send button
+document.getElementById('send-btn').addEventListener('click', handleUserInput);
+
+// Event listener for Enter key
+document.getElementById('user-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleUserInput();
 });
-
-// Load the model when the page loads
-loadModel();
