@@ -1,23 +1,36 @@
-const whale = document.getElementById('whale');
-
-// Function to move the whale
-function moveWhale(event) {
-    let x, y;
-
-    // Check if it's a touch event
-    if (event.touches) {
-        x = event.touches[0].clientX;
-        y = event.touches[0].clientY;
-    } else {
-        x = event.clientX;
-        y = event.clientY;
-    }
-
-    // Smoothly move the whale to the cursor/finger position
-    whale.style.left = `${x}px`;
-    whale.style.top = `${y}px`;
+// Load MobileNet model
+let model;
+async function loadModel() {
+    model = await mobilenet.load();
+    console.log("Model loaded!");
 }
 
-// Add event listeners for both mouse and touch events
-document.addEventListener('mousemove', moveWhale);
-document.addEventListener('touchmove', moveWhale);
+// Classify the uploaded image
+async function classifyImage(image) {
+    const predictions = await model.classify(image);
+    console.log(predictions);
+
+    // Display the top prediction
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = `Prediction: <strong>${predictions[0].className}</strong> (${Math.round(predictions[0].probability * 100)}%)`;
+}
+
+// Handle image upload
+document.getElementById('image-upload').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.getElementById('preview');
+            img.src = e.target.result;
+            img.style.display = 'block';
+
+            // Classify the image once it's loaded
+            img.onload = () => classifyImage(img);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Load the model when the page loads
+loadModel();
