@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Movement</title>
+    <title>AI Image Classifier</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="ocean">
-        <svg id="whale" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
-            <!-- Whale Body -->
-            <path d="M20 50 Q100 0 180 50 Q100 100 20 50 Z" fill="#1e90ff" />
-            <!-- Whale Tail -->
-            <path d="M180 50 Q200 40 200 60 Q190 70 180 50 Z" fill="#1e90ff" />
-            <!-- Whale Eye -->
-            <circle cx="40" cy="40" r="5" fill="#ffffff" />
-        </svg>
-        <!-- Waves -->
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-    </div>
+    <h1>AI Image Classifier</h1>
+    <input type="file" id="image-upload" accept="image/*" />
+    <img id="preview" src="#" alt="Image Preview" style="display: none; max-width: 300px; margin-top: 20px;" />
+    <p id="result"></p>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
     <script src="script.js"></script>
 </body>
 </html>
