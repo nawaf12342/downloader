@@ -1,46 +1,33 @@
-// Load the GPT-2 model
-async function loadModel() {
-    const model = await transformers.AutoModelForCausalLM.from_pretrained('gpt2');
-    const tokenizer = await transformers.AutoTokenizer.from_pretrained('gpt2');
-    return { model, tokenizer };
-}
+document.getElementById('correctButton').addEventListener('click', async () => {
+  const inputText = document.getElementById('inputText').value;
+  const outputText = document.getElementById('outputText');
 
-// Generate a response using the GPT-2 model
-async function generateResponse(model, tokenizer, inputText) {
-    const inputIds = tokenizer.encode(inputText, { return_tensors: 'tf' });
-    const output = await model.generate(inputIds, {
-        max_length: 50,
-        num_return_sequences: 1,
+  if (!inputText.trim()) {
+    outputText.textContent = 'Please enter some text.';
+    return;
+  }
+
+  try {
+    const response = await fetch('https://api.languagetool.org/v2/check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `text=${encodeURIComponent(inputText)}&language=en-US`,
     });
-    const responseText = tokenizer.decode(output[0], { skip_special_tokens: true });
-    return responseText;
-}
 
-// Handle user input
-async function handleUserInput() {
-    const userInput = document.getElementById('user-input').value;
-    if (!userInput.trim()) return;
+    const data = await response.json();
+    let correctedText = inputText;
 
-    // Add user message to chat box
-    const chatBox = document.getElementById('chat-box');
-    chatBox.innerHTML += `<div class="user-message">You: ${userInput}</div>`;
+    // Apply corrections to the text
+    data.matches.forEach((match) => {
+      const replacement = match.replacements[0]?.value || '';
+      correctedText = correctedText.slice(0, match.offset) + replacement + correctedText.slice(match.offset + match.length);
+    });
 
-    // Clear input
-    document.getElementById('user-input').value = '';
-
-    // Generate AI response
-    const { model, tokenizer } = await loadModel();
-    const response = await generateResponse(model, tokenizer, userInput);
-
-    // Add AI response to chat box
-    chatBox.innerHTML += `<div class="ai-message">AI: ${response}</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
-}
-
-// Event listener for send button
-document.getElementById('send-btn').addEventListener('click', handleUserInput);
-
-// Event listener for Enter key
-document.getElementById('user-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleUserInput();
+    outputText.textContent = correctedText;
+  } catch (error) {
+    outputText.textContent = 'An error occurred. Please try again.';
+    console.error(error);
+  }
 });
