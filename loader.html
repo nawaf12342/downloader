@@ -1,32 +1,169 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loader</title>
-    <style>
-        body { /* Same styles as index.html */ }
-    </style>
-</head>
-<body>
-    <div class="info-container">
-        <button onclick="downloadLoader()">Download MEX CLIENT LOADER</button>
-    </div>
-    <footer>
-        <a href="index.html">Home</a>
-    </footer>
-    <audio autoplay loop>
-        <source src="https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/King%20Von%20Anti%20piracy%20screen%20(for%20my%20pc).mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        function downloadLoader() {
-            const link = document.createElement("a");
-            link.href =
-                "https://raw.githubusercontent.com/nawaf12342/downloader/main/downloads/loader.exe";
-            link.download = "loader.exe";
-            link.click();
+<script>
+    // Set a unique cookie for the user
+    function setUserCookie() {
+        let userId = getCookie("userToken");
+        if (!userId) {
+            userId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+            setCookie("userToken", userId, 365);
         }
-    </script>
-</body>
-</html>
+        return userId;
+    }
+
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+    }
+
+    function getCookie(name) {
+        const cookieName = `${name}=`;
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(cookieName)) {
+                return cookie.substring(cookieName.length);
+            }
+        }
+        return null;
+    }
+
+    function sendTicket() {
+        const userID = document.getElementById("userLicenceKey").value.trim();
+        const issueType = document.getElementById("issueType").value;
+        const issueDescription = document.getElementById("issueDescription").value.trim();
+        const contactMethod = document.getElementById("contactMethod").value.trim();
+
+        if (!userID || !issueDescription || !contactMethod) {
+            alert("⚠ Please fill in all fields.");
+            return;
+        }
+
+        if (getCookie("banned") === "true") {
+            alert("🚫 You are banned from submitting tickets.");
+            return;
+        }
+
+        let submissionCount = parseInt(getCookie("submissionCount")) || 0;
+        const lastSubmissionTime = parseInt(getCookie("lastSubmissionTime")) || 0;
+        const currentTime = Date.now();
+
+        if (currentTime - lastSubmissionTime > 10 * 60 * 1000) {
+            submissionCount = 0;
+        }
+
+        if (submissionCount >= 5) {
+            setCookie("banned", "true", 1);
+            
+            if (!getCookie("ban_notified")) {
+                notifyBan(userID);
+                setCookie("ban_notified", "true", 1);
+            }
+            
+            alert("🚫 You have been banned for spamming.");
+            return;
+        }
+
+        submissionCount++;
+        setCookie("submissionCount", submissionCount.toString(), 1);
+        setCookie("lastSubmissionTime", currentTime.toString(), 1);
+
+        const webhookURL = "https://discord.com/api/webhooks/1318172255200608286/xzs8hCt3pouk1LrrAZHhyQ-n643oDdIGueWgQADWlVfBHxOu3ffLMMAlsSMRy16M4Xau";  
+
+        const payload = {
+            content: "**New Support Ticket**",
+            embeds: [{
+                title: "Support Request",
+                color: 16776960,
+                fields: [
+                    { name: "User ID", value: userID, inline: true },
+                    { name: "Issue Type", value: issueType, inline: true },
+                    { name: "Description", value: issueDescription },
+                    { name: "Contact Method", value: contactMethod, inline: true }
+                ],
+                footer: { text: "Support System" }
+            }]
+        };
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("✅ Ticket submitted successfully!");
+                saveTicket(userID, issueType, issueDescription, contactMethod);
+            } else {
+                alert("❌ Failed to send ticket.");
+            }
+        })
+        .catch(error => {
+            alert("🚨 Error sending ticket: " + error);
+        });
+    }
+
+    function notifyBan(userID) {
+        const webhookURL = "https://discord.com/api/webhooks/1318172255200608286/xzs8hCt3pouk1LrrAZHhyQ-n643oDdIGueWgQADWlVfBHxOu3ffLMMAlsSMRy16M4Xau";
+
+        const payload = {
+            content: `🚨 **User Banned for Spamming** 🚨`,
+            embeds: [{
+                title: "Ban Notification",
+                color: 16711680,
+                fields: [
+                    { name: "User ID", value: userID, inline: true },
+                    { name: "Reason", value: "Exceeded ticket submission limit.", inline: true }
+                ],
+                footer: { text: "Automated Ban System" }
+            }]
+        };
+
+        fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .catch(error => console.error("🚨 Error sending ban notification: ", error));
+    }
+
+    function saveTicket(userID, issueType, issueDescription, contactMethod) {
+        const ticket = {
+            userID, issueType, issueDescription, contactMethod,
+            time: new Date().toLocaleString()
+        };
+
+        let history = JSON.parse(localStorage.getItem("ticketHistory")) || [];
+        history.unshift(ticket);
+        localStorage.setItem("ticketHistory", JSON.stringify(history));
+        displayHistory();
+    }
+
+    function displayHistory() {
+        const historyContainer = document.getElementById("ticketHistory");
+        historyContainer.innerHTML = "";
+        const history = JSON.parse(localStorage.getItem("ticketHistory")) || [];
+
+        history.forEach(ticket => {
+            const ticketElement = document.createElement("div");
+            ticketElement.className = "ticket";
+            ticketElement.innerHTML = `
+                <strong>🆔 ${ticket.userID}</strong> <br>
+                <strong>📌 ${ticket.issueType}</strong> <br>
+                <strong>💬 ${ticket.issueDescription}</strong> <br>
+                <strong>📞 ${ticket.contactMethod}</strong> <br>
+                <small>⏳ ${ticket.time}</small>
+            `;
+            historyContainer.appendChild(ticketElement);
+        });
+    }
+
+    function clearHistory() {
+        localStorage.removeItem("ticketHistory");
+        displayHistory();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setUserCookie();
+        displayHistory();
+    });
+</script>
