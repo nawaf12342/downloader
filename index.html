@@ -3,59 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support Ticket</title>
+    <title>Support Panel</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 15px #00ffcc;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #00ffcc;
+        }
+
+        input, select, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background: linear-gradient(90deg, #00ffcc, #0099cc);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0099cc, #00ffcc);
+            transform: scale(1.05);
+        }
+
+        .history-container {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            background: #00ffcc;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffcc;
+            transition: width 0.3s ease-in-out;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .history-container:hover {
+            width: 250px;
+        }
+
+        .history-panel {
+            display: none;
+            padding: 10px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .history-container:hover .history-panel {
+            display: block;
+        }
+
+        .ticket {
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 12px;
+            border-left: 3px solid #00ffcc;
+        }
+
+        .clear-btn {
+            background-color: red;
+            color: white;
+            width: 100%;
+            padding: 6px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .clear-btn:hover {
+            background-color: darkred;
+        }
+    </style>
 </head>
 <body>
 
-    <input type="text" id="userLicenceKey" placeholder="Enter your license key">
-    <select id="issueType">
-        <option value="Bug">Bug</option>
-        <option value="Billing">Billing</option>
-        <option value="Other">Other</option>
-    </select>
-    <textarea id="issueDescription" placeholder="Describe your issue"></textarea>
-    <input type="text" id="contactMethod" placeholder="Enter contact details">
-    <button onclick="sendTicket()">Submit Ticket</button>
+    <div class="container">
+        <h2>Support Ticket</h2>
+        <p>Spamming tickets will get you banned.</p>
+        <input type="text" id="userLicenceKey" placeholder="Your Licence key">
+        <select id="issueType">
+            <option value="Technical">Technical Issue</option>
+            <option value="Billing">Billing Issue</option>
+            <option value="Other">Other</option>
+        </select>
+        <textarea id="issueDescription" placeholder="Describe your issue..."></textarea>
+        <input type="text" id="contactMethod" placeholder="Email or Discord">
+        <button onclick="sendTicket()">Submit Ticket</button>
+    </div>
 
-    <h2>Ticket History</h2>
-    <div id="ticketHistory"></div>
-    <button onclick="clearHistory()">Clear History</button>
+    <div class="history-container">
+        📜
+        <div class="history-panel" id="historyPanel">
+            <h4>Tickets History</h4>
+            <div id="ticketHistory"></div>
+            <button class="clear-btn" onclick="clearHistory()">Clear</button>
+        </div>
+    </div>
 
     <script>
-        function setUserCookie() {
-            let userId = getCookie("userToken");
-            if (!userId) {
-                userId = Math.random().toString(36).substring(2) + Date.now().toString(36);
-                setCookie("userToken", userId, 365);
-            }
-            return userId;
-        }
-
         function setCookie(name, value, days) {
             const date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/`;
+            document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
         }
 
         function getCookie(name) {
-            const cookieName = `${name}=`;
+            const cookieName = name + "=";
             const cookies = document.cookie.split(';');
             for (let cookie of cookies) {
                 cookie = cookie.trim();
                 if (cookie.startsWith(cookieName)) {
-                    return cookie.substring(cookieName.length);
+                    return cookie.substring(cookieName.length, cookie.length);
                 }
             }
             return null;
         }
 
+        function sendBanWebhook(userID) {
+            const webhookURL = "YOUR_DISCORD_WEBHOOK_HERE";  
+
+            const payload = {
+                content: "**User Banned**",
+                embeds: [{
+                    title: "Ban Notification",
+                    color: 16711680,
+                    fields: [
+                        { name: "User ID", value: userID, inline: true },
+                        { name: "Reason", value: "Spamming support tickets", inline: true }
+                    ],
+                    footer: { text: "Support System" }
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+        }
+
         function sendTicket() {
-            console.log("Submitting ticket...");
-            
-            const userID = document.getElementById("userLicenceKey")?.value.trim();
-            const issueType = document.getElementById("issueType")?.value;
-            const issueDescription = document.getElementById("issueDescription")?.value.trim();
-            const contactMethod = document.getElementById("contactMethod")?.value.trim();
+            const userID = document.getElementById("userLicenceKey").value.trim();
+            const issueType = document.getElementById("issueType").value;
+            const issueDescription = document.getElementById("issueDescription").value.trim();
+            const contactMethod = document.getElementById("contactMethod").value.trim();
 
             if (!userID || !issueDescription || !contactMethod) {
                 alert("⚠ Please fill in all fields.");
@@ -77,12 +216,10 @@
 
             if (submissionCount >= 5) {
                 setCookie("banned", "true", 1);
-
-                if (!getCookie("ban_notified")) {
-                    notifyBan(userID);
-                    setCookie("ban_notified", "true", 1);
+                if (!getCookie("banReported")) {
+                    sendBanWebhook(userID);
+                    setCookie("banReported", "true", 1);
                 }
-
                 alert("🚫 You have been banned for spamming.");
                 return;
             }
@@ -91,102 +228,12 @@
             setCookie("submissionCount", submissionCount.toString(), 1);
             setCookie("lastSubmissionTime", currentTime.toString(), 1);
 
-            const webhookURL = "YOUR_DISCORD_WEBHOOK_HERE";  
-
-            const payload = {
-                content: "**New Support Ticket**",
-                embeds: [{
-                    title: "Support Request",
-                    color: 16776960,
-                    fields: [
-                        { name: "User ID", value: userID, inline: true },
-                        { name: "Issue Type", value: issueType, inline: true },
-                        { name: "Description", value: issueDescription },
-                        { name: "Contact Method", value: contactMethod, inline: true }
-                    ],
-                    footer: { text: "Support System" }
-                }]
-            };
-
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("✅ Ticket submitted successfully!");
-                    saveTicket(userID, issueType, issueDescription, contactMethod);
-                } else {
-                    alert("❌ Failed to send ticket.");
-                }
-            })
-            .catch(error => {
-                alert("🚨 Error sending ticket: " + error);
-            });
-        }
-
-        function notifyBan(userID) {
-            const webhookURL = "YOUR_DISCORD_WEBHOOK_HERE";
-
-            const payload = {
-                content: `🚨 **User Banned for Spamming** 🚨`,
-                embeds: [{
-                    title: "Ban Notification",
-                    color: 16711680,
-                    fields: [
-                        { name: "User ID", value: userID, inline: true },
-                        { name: "Reason", value: "Exceeded ticket submission limit.", inline: true }
-                    ],
-                    footer: { text: "Automated Ban System" }
-                }]
-            };
-
-            fetch(webhookURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            })
-            .catch(error => console.error("🚨 Error sending ban notification: ", error));
-        }
-
-        function saveTicket(userID, issueType, issueDescription, contactMethod) {
-            console.log("Saving ticket...");
-
-            const ticket = {
-                userID, issueType, issueDescription, contactMethod,
-                time: new Date().toLocaleString()
-            };
-
-            let history = JSON.parse(localStorage.getItem("ticketHistory")) || [];
-            history.unshift(ticket);
-            localStorage.setItem("ticketHistory", JSON.stringify(history));
-            displayHistory();
+            alert("✅ Ticket submitted successfully!");
         }
 
         function displayHistory() {
-            console.log("Displaying history...");
             const historyContainer = document.getElementById("ticketHistory");
-            if (!historyContainer) {
-                console.error("Ticket history container not found.");
-                return;
-            }
-
             historyContainer.innerHTML = "";
-            const history = JSON.parse(localStorage.getItem("ticketHistory")) || [];
-
-            history.forEach(ticket => {
-                const ticketElement = document.createElement("div");
-                ticketElement.className = "ticket";
-                ticketElement.innerHTML = `
-                    <strong>🆔 ${ticket.userID}</strong> <br>
-                    <strong>📌 ${ticket.issueType}</strong> <br>
-                    <strong>💬 ${ticket.issueDescription}</strong> <br>
-                    <strong>📞 ${ticket.contactMethod}</strong> <br>
-                    <small>⏳ ${ticket.time}</small>
-                `;
-                historyContainer.appendChild(ticketElement);
-            });
         }
 
         function clearHistory() {
@@ -195,7 +242,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            setUserCookie();
             displayHistory();
         });
     </script>
