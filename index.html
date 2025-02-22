@@ -5,7 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support Panel</title>
     <style>
-        /* Your existing CSS styles */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 0 15px #00ffcc;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: #00ffcc;
+        }
+
+        input, select, textarea, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background: linear-gradient(90deg, #00ffcc, #0099cc);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0099cc, #00ffcc);
+            transform: scale(1.05);
+        }
+
+        /* Small Ticket History Panel (Top Left) */
+        .history-container {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 50px;
+            height: 50px;
+            background: #00ffcc;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00ffcc;
+            transition: width 0.3s ease-in-out;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .history-container:hover {
+            width: 250px;
+        }
+
+        .history-panel {
+            display: none;
+            padding: 10px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .history-container:hover .history-panel {
+            display: block;
+        }
+
+        .ticket {
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            font-size: 12px;
+            border-left: 3px solid #00ffcc;
+        }
+
+        .clear-btn {
+            background-color: red;
+            color: white;
+            width: 100%;
+            padding: 6px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .clear-btn:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 <body>
@@ -203,13 +319,13 @@
             history.forEach(ticket => {
                 const ticketElement = document.createElement("div");
                 ticketElement.className = "ticket";
-                ticketElement.innerHTML = 
+                ticketElement.innerHTML = `
                     <strong>🆔 ${ticket.userID}</strong> <br>
                     <strong>📌 ${ticket.issueType}</strong> <br>
                     <strong>💬 ${ticket.issueDescription}</strong> <br>
                     <strong>📞 ${ticket.contactMethod}</strong> <br>
                     <small>⏳ ${ticket.time}</small>
-                ;
+                `;
                 historyContainer.appendChild(ticketElement);
             });
         }
